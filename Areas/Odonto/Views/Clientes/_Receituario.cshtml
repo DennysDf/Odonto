@@ -1,0 +1,55 @@
+﻿@model List<Odonto.Areas.Odonto.Models.Receituario.ReceituarioVM>
+
+
+
+@{
+    Layout = null;
+}
+
+<div class="row justify-content-center">
+    <div class="col-sm-3 text-center my-2">
+        <a href="@Url.Action("Cadastrar","Receituario", new {id = 0, pacienteId = ViewBag.Id, router = 1  })">
+            <button data-id="0" class="btn btn-dark w-100 edit-cliente"><i class="fa fa-plus text-white"></i> Cadastrar</button>
+        </a>
+    </div>
+</div>
+
+<div class="">
+    <table class="table table-sm table-striped bg-white table-hover">
+        <thead class="thead-light w-100 ">
+            <tr>
+                <th class="font-weight-bold">Data</th>
+                <th class="font-weight-bold">Medicamentos</th>
+                <th class="text-center font-weight-bold" width="10">Ações</th>
+            </tr>
+        </thead>
+        <tbody class=" w-100">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="center text-nowrap">@item.Data.ToDateMin()</td>
+                    <td class="text-nowrap">
+                        <ul>
+                            @foreach (var med in item.MedicamentosList)
+                            {
+                                <li>@med.Medicamento</li>
+                            }
+                        </ul>
+                    </td>
+                    <td class="text-nowrap center text-dark">
+
+
+
+                        <a data-id="@item.Id" class="mr-2 del-receituario" href="#" data-toggle="tooltip" data-placement="left" title="Deletar">
+                            <i class="fa fa-times text-dark"></i>
+                        </a>
+
+                        <a href="@Url.Action("Detalhes","Receituario", new { simplesId = item.SimplesId, especialId = item.EspecialId, clienteid =  ViewBag.Id  })" data-toggle="tooltip" data-placement="left" title="Editar/Imprimir">
+                            <i class="fa fa-print text-dark"></i>  / <i class="fa fa-pencil-alt text-dark"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

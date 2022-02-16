@@ -1,0 +1,62 @@
+﻿@inject IUser _user;
+
+@{
+    ViewData["Title"] = "Início";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-6 col-lg-3 col-xlg-3">
+        <div class="card card-hover text-white">
+            <div class="box bg-cyan text-center">
+                <i class="fa fa-users m-b-5 font-16"></i>
+                <h5 class="m-b-0 m-t-5">@ViewBag.QtdClientes</h5>
+                <small class="font-light">Total de Pacientes</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 col-xlg-3">
+        <div class="card card-hover text-white">
+            <div class="box bg-theme text-center">
+                <i class="mdi mdi-clipboard-account m-b-5 font-16"></i>
+                <h5 class="m-b-0 m-t-5">@ViewBag.QtdExames</h5>
+                <small class="font-light">Total de Exames</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 col-xlg-3">
+        <div class="card card-hover text-white">
+            <div class="box bg-purple text-center">
+                <i class="mdi mdi-newspaper m-b-5 font-16"></i>
+                <h5 class="m-b-0 m-t-5">@ViewBag.QtdProcedimentos</h5>
+                <small class="font-light">Total de Procedimentos</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3 col-xlg-3">
+        <div class="card card-hover text-white">
+            <div class="box bg-info text-center">
+                <i class="fa fa-file-alt m-b-5 font-16"></i>
+                <h5 class="m-b-0 m-t-5">@ViewBag.QtdReceituarios</h5>
+                <small class="font-light">Total de Receituários</small>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+
+
+
+        <div style="background-image:url(http://localhost:51614/Upload/Clientes/2_3166_15756670936711928274424263543007.jpg); width:2100px;height:2100px;">
+            
+        </div>
+
+
+
+
+
+    </div>
+</div>

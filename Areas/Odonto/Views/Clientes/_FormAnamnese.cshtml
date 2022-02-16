@@ -1,0 +1,66 @@
+﻿@model Odonto.Areas.Odonto.Models.Clientes.AnamneseVM
+@{
+    Layout = null;
+    var tipos = new string[] { "Questionário do Anamnese", "Saúde Bucal" };
+    var tipo = 0;
+    var activeSim = "";
+    var activeNao = "";
+    var count = 0;
+    var read = "";
+    var valid = "";
+    var color = "";
+}
+
+
+<div class="row justify-content-center mt-4">
+
+</div>
+<form asp-action="Anamnese" method="post" id="post-anamnese">
+    <div class="container-fluid">
+        @for (int i = 0; i < Model.AnamnesesList.Count(); i++)
+        {
+            activeSim = Model.AnamnesesList[i].DescricaoAnamnese != null ? "active" : "";
+            activeNao = Model.AnamnesesList[i].DescricaoAnamnese != null ? "" : "active";
+            read = Model.AnamnesesList[i].DescricaoAnamnese == null ? "readonly" : "";
+            valid = Model.AnamnesesList[i].DescricaoAnamnese != null ? "valide" : "";
+            color = Model.AnamnesesList[i].DescricaoAnamnese != null ? "border-danger" : "";
+
+            if (tipo != Model.AnamnesesList[i].Tipo)
+            {
+                tipo = Model.AnamnesesList[i].Tipo;
+                <div class="rounded my-3 border border-dark " style="background-color:rgba(128, 128, 128, 0.16)">
+                    <div class="row">
+                        <div class="col-sm-12 text-center p-2">
+                            <span class="font-weight-bold font-18">@tipos[Model.AnamnesesList[i].Tipo - 1]</span>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-sm-12 mt-2">
+                    <label>@Model.AnamnesesList[i].Descricao </label>
+
+                    <div class="float-right">
+                        <div class="row mb-1">                            
+                            <button type="button" data-index="@count" value="s" class="btn btn-sm @activeSim btn-outline-secondary mr-1 resul">Sim</button>
+                            <button type="button" data-index="@count" value="n" class="btn btn-sm mr-2 @activeNao btn-outline-secondary resul">Não</button>
+                        </div>
+                    </div>
+
+                    <input type="text" data-index="@count" id="@count" name="AnamnesesList[@count].DescricaoAnamnese" value="@Model.AnamnesesList[i].DescricaoAnamnese" @read class="form-control @valid @color"  placeholder="Responda..." />
+
+                    <span class="text-danger font-weight-bold @count mensagem" ></span>
+                    <input hidden asp-for="AnamnesesList[i].ClienteId" />
+                    <input hidden asp-for="AnamnesesList[i].AnamneseId" />
+                    <input hidden asp-for="AnamnesesList[i].Id" />
+                </div>
+            </div>
+            count++;
+        }
+    </div>
+    <div class="row my-4">
+        <div class="col-sm-12 text-center edit-anamnese">
+            <button id="submit-form" type="button" class="btn bg-cyan text-white"><i class="fa fa-check-circle"></i> Salvar</button>
+        </div>
+    </div>
+</form>

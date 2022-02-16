@@ -1,0 +1,472 @@
+﻿@model Odonto.Areas.Odonto.Models.Clientes.ClientesVM
+@{
+    ViewData["Title"] = "Detalhes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Caminho"] = "<li><a href=" + Url.Action("Listar", "Clientes") + ">Listar</a></li><li>Paciente</li>";
+}
+
+<style>
+
+    .table .center {
+        vertical-align: inherit !important;
+    }
+
+    .valide:focus {
+        outline: none !important;
+        border: 4px solid red !important;
+        box-shadow: 0 0 30px red!important;
+    }
+
+    .validInput {
+        border: 2px solid red !important;
+    }
+
+    .tamanho-img{
+        width:auto;     
+    }
+
+    .card {
+        margin: 0 !important;
+        margin-bottom: 15px;
+    }
+
+    .nav.nav-tabs-bordered {
+        border-color: #52BCD3;
+    }
+
+    .nav.nav-tabs-bordered + .tab-content {
+            border-style: solid;
+            border-width: 0 1px 1px 1px;
+            border-color: #52BCD3;
+        }
+
+    .nav.nav-tabs-bordered .nav-item .nav-link {
+            text-decoration: none;
+        }
+
+    .nav.nav-tabs-bordered .nav-item .nav-link:hover {
+            color: #ffffff;
+            background-color: #52BCD3;
+            border-left: 1px solid #ffffff;
+            border-right: 1px solid #ffffff;
+        }
+
+    .nav.nav-tabs-bordered .nav-item .nav-link.active {
+                border-color: #52BCD3;
+                background-color: #52BCD3;
+                border-bottom-color: transparent;
+                color: #fff;
+            }
+
+    .nav.nav-tabs-bordered .nav-item .nav-link.active:hover {
+                    background-color: #52BCD3;
+                    color: #FFF;
+                }
+
+    .nav-pills .nav-link {
+        border-radius: 15px;
+    }
+
+    .box {
+        position: relative;
+        top: 0;
+        transition: top ease 0.4s;
+    }
+
+    .box:hover {
+            top: -10px;
+        }
+
+
+    @@media screen and (min-width: 500px) {
+        .card {
+            margin: 10px 20px 20px 20px;
+            background-color: transparent !important;
+        }
+
+        .nav-tabs .nav-item {
+            width: 20%;
+            text-align: center;
+        }
+
+        .nav.nav-tabs-bordered + .tab-content {
+            padding: 10px 20px 0;
+        }
+    }
+</style>
+
+<div class="row">
+    <div class="col-9">
+
+        <div class="row">
+            <div class="col-12"><h5 class="m-0">@ViewBag.Nome</h5></div>
+        </div>
+    </div>
+    <div class="col-3 text-right">
+        <div>
+            @if (Model.Imagem != null)
+            {
+            <a href="~/Upload/Clientes/@Model.Imagem" class="box image-popup-vertical-fit el-link">
+                <img src="~/Upload/Clientes/@Model.Imagem" class="box" width="70" height="70" style="cursor:pointer" />
+            </a>
+            }
+            else
+            {
+                <i class="fa fa-user fa-3x"></i>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <section class="section">
+            <div class="row sameheight-container bg-white">
+                <div class="col-12">
+                    <div class="card sameheight-item">
+                        <div class="card-block">
+                            <ul class="nav nav-tabs nav-tabs-bordered" id="tabs-itens">
+
+                                <li class="nav-item ">
+                                    <a href="?url=cliente" class="nav-link " data-target="#cliente" data-toggle="tab" aria-controls="cliente" role="tab"> Paciente</a>
+                                </li>
+
+                                <li class="nav-item ">
+                                    <a href="?url=anamnese" class="nav-link" data-target="#anamnese" aria-controls="anamnese" data-toggle="tab" role="tab">Anamnese</a>
+                                </li>
+
+                                <li class="nav-item ">
+                                    <a href="?url=exames" class="nav-link" data-target="#exames" aria-controls="exames" data-toggle="tab" role="tab">Exames</a>
+                                </li>
+
+                                <li class="nav-item ">
+                                    <a href="?url=procedimentos" class="nav-link" data-target="#procedimentos" aria-controls="procedimentos" data-toggle="tab" role="tab">Procedimentos</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a href="?url=receituario" class="nav-link" data-target="#receituario" aria-controls="receituario" data-toggle="tab" role="tab">Receituários</a>
+                                </li>
+
+                            </ul>
+                            <div class="tab-content tabs-bordered">
+
+                                <div class="tab-pane fade" id="cliente">
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-center">
+                                            <div class="col-sm-3 text-center my-2">
+                                                <button class="btn btn-dark w-100" id="edit-cliente"><i class="fa fa-edit"></i> Editar</button>
+                                            </div>
+                                        </div>
+                                        <form asp-action="Cadastrar" method="post" enctype="multipart/form-data">
+                                            @Html.Partial("_FormCliente")
+                                            <div class="row my-4">
+                                                <div class="col-sm-12 text-center d-none edit-cliente">
+                                                    <button type="submit" class="btn bg-cyan text-white"><i class="fa fa-check-circle"></i> Salvar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="anamnese">
+                                    <div class="container-fluid">
+                                        @Html.Partial("_FormAnamnese", Model.Anamnese)
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="exames">
+                                    <div class="container-fluid">
+                                        @Html.Partial("_Exames", Model.Exames)
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade " id="procedimentos">
+                                    <div class="container-fluid mb-3">
+                                        @Html.Partial("_Procedimentos", Model.Procedimentos)
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade " id="receituario">
+                                    <div class="container-fluid mb-3">
+                                        @Html.Partial("_Receituario", Model.Receituarios)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<div class="modal bg-transparent" id="cliente-zoom" style="top:-20px!important">
+    <div class="modal-dialog bg-transparent text-center" role="document" style="width:auto !important; max-width:1200px">
+        <div class="modal-content bg-transparent" style="border:none">
+            <div class="modal-body bg-transparent" id="zoom-corpo">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal bg-transparent" id="cliente-modal" >
+    <div class="modal-dialog bg-transparent text-center" role="document" style="width:auto !important; max-width:1200px">   
+        <div class="modal-content bg-transparent" style="border:none">           
+            <div class="modal-body bg-transparent" id="corpo-clientes" >
+                   <img id="img-do-cliente" class="tamanho-img"  />
+            </div>               
+        </div>
+    </div>
+</div>
+
+<div   class="modal" style="padding-top:140px" id="del-exame" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form asp-action="ExcluirExame" method="post">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-white"><i class="mdi mdi-alert"></i> ATENÇÃO <i class="mdi mdi-alert"></i> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="font-weight-bold font-17">Tem certeza que deseja apagar este exame?</span>
+                    <input type="hidden" name="clienteId" id="clienteId-form" value="@ViewBag.Id" />
+                    <input type="hidden" name="id" id="id-form-exame" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fa fa-times"></i> Cancelar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Confirmar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal" style="padding-top:140px" id="del-receita" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form asp-action="ExcluirReceituario" method="post">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-white"><i class="mdi mdi-alert"></i> ATENÇÃO <i class="mdi mdi-alert"></i> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="font-weight-bold font-17">Tem certeza que deseja apagar este receituário?</span>
+                    <input type="hidden" name="clienteId" id="clienteId-form" value="@ViewBag.Id" />
+                    <input type="hidden" name="id" id="id-form-receita" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fa fa-times"></i> Cancelar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Confirmar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal " id="alert" style="padding-top:140px" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <form asp-action="ExcluirProcedimentos" method="post">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-white"><i class="mdi mdi-alert"></i> ATENÇÃO <i class="mdi mdi-alert"></i> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="font-weight-bold font-17">Tem certeza que deseja apagar este procedimento?</span>
+                    <input type="hidden" name="clienteId" id="clienteId-form" value="@ViewBag.Id" />
+                    <input type="hidden" name="id" id="id-form" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fa fa-times"></i> Cancelar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Confirmar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="add" class="modal fade" role="dialog" data-backdrop="static">
+
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        $(".del-receituario").click(function () {
+            var id = $(this).data("id");
+            $("#id-form-receita").val(id)
+            $("#del-receita").modal("show")
+        });
+
+        $(".del-exame").click(function () {
+            var id = $(this).data("id");
+            $("#id-form-exame").val(id)            
+            $("#del-exame").modal("show")
+        });
+
+        $(".del-procedimento").click(function () {
+            var id = $(this).data("id");
+            $("#id-form").val(id)
+            $(".modal-title").text("ATENÇÃO")
+            $("#alert").modal("show")
+        });
+
+        $("#add-exames, .edit-exame").click(function () {
+            var id = $(this).data("id")
+            $.get('@Url.Action("Exames")', { "id": id, "clienteId" : @ViewBag.Id }, function (response) {
+                $("#add").html(response)
+                $("#add").modal("show")
+                id != 0 ? $(".modal-title").text("Editar Exame") : $(".modal-title").text("Cadastrar Exame")   
+                id != 0 ? $(".row-foto").hide() : $(".row-foto").show();
+                datePicker();
+            })
+        });
+
+
+        $("#add-procedimentos, .edit").click(function () {
+            var id = $(this).data("id")
+            $.get('@Url.Action("Procedimentos")', { "id": id, "clienteId" : @ViewBag.Id }, function (response) {
+                $("#add").html(response)
+                id != 0 ? $(".modal-title").text("Editar Procedimento") : $(".modal-title").text("Cadastrar Procedimento")
+                id != 0 ? $(".text-btn").text("Editar") : $(".text-btn").text("Cadastrar")
+                $("#add").modal("show")
+                datePicker();
+            })
+        });
+
+
+        $(".telefone-celular").mask('(00) 0 0000-0000');
+
+        $("#edit-cliente").click(function () {
+            $(".form-cliente").removeAttr("readonly")
+            $(this).hide()
+            $(".edit-cliente").removeClass("d-none");
+        })
+
+        $(".edit-anamnese").click(function () {
+            $(".form-cliente-anamnese").removeAttr("readonly");
+            $(".edit-anamnese").removeClass("d-none");
+        })
+
+        $(".form-cliente").attr("readonly", true)
+
+        function datePicker() {
+
+            $(".data").datetimepicker({ useCurrent: false, maxDate: $.now(), format: 'DD/MM/YYYY', locale: "pt-br" });
+            
+            $(".data").mask("00/00/0000")
+        }
+
+        datePicker();        
+        
+    </script>
+
+    <script type="text/javascript">
+        $(".resul").click(function () {            
+            var valor = $(this).val();
+            var index = $(this).data("index")
+            $("button[data-index='" + index + "']").removeClass("active")
+            $(this).addClass("active")
+            if (valor == "s") {
+                $("#" + index).removeAttr("readonly").addClass("valide").addClass("validInput").focus()
+                
+            } else {
+                $("#" + index).attr("readonly", true).removeClass("valide").removeClass("validInput").val("")
+            }
+        });
+
+        $("#submit-form").click(function () {
+            $(".mensagem").text("")
+            var bool = true;
+            var inputIndex = 0;
+            var input = $(".valide");            
+            input.each(function () {
+                var val = $(this).val();
+                if (val == "") {
+                    var index = $(this).data("index")
+                    $("." + index).text("Este campo é obrigátorio.")
+                    if (bool) { inputIndex = index }
+                    bool = false;
+                }
+            });
+            if (bool) {
+                $("#post-anamnese").submit();
+            } else {
+                $("#" + inputIndex).focus()
+            }
+        })
+    </script>
+
+    @****** IMG ZOOM ******@
+    <script type="text/javascript">
+        var height = $(window).height();
+
+        $(".open-zoom").click(function () {
+           
+            var div = $("<div>").attr("id", "img-zoom")
+            $("#zoom-corpo").html(div)
+            $("#img-zoom").addClass("tamanho-img").css("height", (height - 80))
+            var src = $(this).attr("href")            
+            $("#img-zoom").verySimpleImageViewer({
+                imageSource: src,
+                frame: ['100%', '100%'],
+                maxZoom: '900%',
+                zoomFactor: '10%',
+                saveZoomPos: false,
+                mouse: true,
+                keyboard: true,
+                toolbar: true
+            });
+            $("#cliente-zoom").modal("show")
+        })
+
+        $(".abrir").click(function () {
+            $("#img-do-cliente").addClass("tamanho-img").css("max-height", (height - 80))
+            var src = $(this).attr("src")
+            $("#img-do-cliente").attr("src", src)
+            $("#cliente-modal").modal("show")
+        })
+    </script>
+
+
+    @****** URL ******@
+    <script type="text/javascript">
+        $(document).ready(() => {
+            let url = location.href.replace(/\/$/, "");
+
+            if (true) {
+                const hash = url.split("?");
+                $('#tabs-itens li a[href="?' + hash[1] + '"]').tab("show");
+                url = location.href.replace(/\/#/, "#");
+                history.replaceState(null, null, url);
+                setTimeout(() => {
+                    $(window).scrollTop(0);
+                }, 400);
+            }
+
+            $('a[data-toggle="tab"]').on("click", function () {
+                var urlNew = url.split("?")
+                let newUrl;
+                const hash = $(this).attr("href");
+                if (hash == "#home") {
+                    newUrl = url.split("#")[0];
+                } else {
+                    newUrl = urlNew[0].split("#")[0] + hash;
+                }
+                newUrl += "";
+                history.replaceState(null, null, newUrl);
+            });
+        });
+
+
+    </script>
+}
+

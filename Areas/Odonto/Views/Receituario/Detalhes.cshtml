@@ -1,0 +1,180 @@
+﻿@model List<Odonto.Areas.Odonto.Models.Receituario.ListReceituario>
+@inject IUser _user;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Detalhes";
+    var receituario = "<li>Detalhes Receituário</li>";
+
+    if (ViewBag.Verifica)
+    {
+        ViewData["Caminho"] = "<li><a href="+ Url.Action("Listar","Clientes") +">Listar</a></li><li><a href=" + Url.Action("Detalhes", "Clientes", new { id = ViewBag.Cliente, url = "receituario" }) + ">Paciente</a></li>"+receituario;
+    }
+    else
+    {
+        ViewData["Caminho"] = "<li><a href=" + Url.Action("Cadastrar", "Receituario") + ">Cad. Receituário</a></li>" + receituario;
+    }
+}
+
+<style> 
+
+    @@media print {
+        #teste{
+           display:block;
+        }
+        .corpo {
+            display: flex!important;
+            min-height: 100vh!important;
+            flex-direction: column!important;
+            margin:0!important;
+            border:0!important;
+            padding:0!important;
+        }
+
+        .main {
+            flex: 1 0 auto !important;
+            margin: 0 !important;
+            border: 0 !important;
+            padding: 0 !important;
+        }
+
+        .page-wrapper{
+            margin-left:0!important;
+        } 
+        @@page {
+            size: landscape;
+        }
+        .left-sidebar, .topbar, .footer {
+            display: none;
+        }       
+        #sumir{
+            display:none; 
+        }
+        .page-breadcrumb{
+            display:none;
+        }
+    }
+    .corpo {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    .main {
+        flex: 1 0 auto;
+    }
+</style>
+<style>
+
+    table td {
+        font-size: 9pt !important;
+    }
+
+    @@page {
+        size: auto;
+        margin: 4mm;
+    }
+    
+    body {
+        color: #000 !important;
+        font-size: 9pt !important;
+        border: none !important;
+    }
+
+    h1 {
+        font-size: 24pt !important;
+    }
+
+    h2 {
+        font-size: 18pt !important;
+    }
+
+    h3 {
+        font-size: 14pt !important;
+    }
+
+    .titulo {
+        font-size: 12pt;
+    }
+
+    .sub-titulo {
+        font-size: 10pt;
+    }
+
+    p {
+        orphans: 3 !important;
+        widows: 3 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    @@media print {
+        @@page {
+            size: landscape;
+        }
+    }
+
+    .page-break {
+        page-break-before: always !important;
+    }
+</style>
+
+
+<div class="row justify-content-around" id="sumir">
+
+    @foreach (var item in Model)
+    {   
+
+    <div class="col-sm-5 col-12 bg-white border" id="primeira-parte">
+        <div class="row text-center row-button" style="background-color:#EEEEEE">
+            <div class="col-12 pb-3">
+                <a href="@Url.Action("Cadastrar", new { simplesId =  item.SimplesId, especialId = item.EspecialId,  pacienteId = ViewBag.Cliente })">
+                    <button class="btn bg-cyan text-white "><i class="fa fa-pencil-alt"></i>  Editar</button>
+                </a>
+                <button class="btn bg-secondary text-white imprimir" data-simples="@item.SimplesId" data-especial="@item.EspecialId" >
+                    <i class="fa fa-print"></i>  Imprimir
+                </button>
+            </div>          
+        </div>    
+
+        @Html.Partial("_Impressao", item.ReceituarioList)
+    </div>
+    }
+
+
+    @*<div class="col-sm-6 col-12 bg-white border" id="primeira-parte">
+            @Html.Partial("_Impressao", Model)
+        </div>*@
+
+</div>
+
+
+
+@section Scripts{
+<script type="text/javascript">
+
+
+        @if (ViewBag.Print){
+        <text>
+            Imprimir( @ViewBag.simplesId, @ViewBag.especialId )
+        </text>
+        }
+
+        $(".imprimir").click(function () {
+            var simples = $(this).data("simples")
+            var especial = $(this).data("especial")
+            Imprimir(simples, especial);
+        })
+
+        function Imprimir(simples, especial) {
+            $.post('@Url.Action("Imprimir")', { simplesId: simples, especialId: especial }, function (response) {
+                $(response).printThis({
+                    copyTagClasses: true,
+                    importStyle: true,
+                    printDelay: 600
+                });
+            })
+        }
+
+</script>
+}
+

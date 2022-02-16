@@ -1,0 +1,33 @@
+﻿@model Odonto.Areas.Odonto.Models.Clientes.ClientesVM
+
+@{
+    ViewData["Title"] = "Cadastrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Page"] = "Cadastrar";
+    ViewData["Caminho"] = "<li>Cad. Paciente</li>";
+
+}
+
+
+<form asp-action="Cadastrar" method="post" enctype="multipart/form-data">
+    @Html.Partial("_FormCliente")
+    <div class="row mt-4">
+        <div class="col-sm-12 text-center">
+            <button type="submit" class="btn bg-cyan"><span class="text-white font-weight-bold">Cadastrar</span></button>
+        </div>
+    </div>
+</form>
+
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(".telefone-celular").mask('(00) 0 0000-0000');
+        $(".data").mask("00/00/0000")
+        $(".data").datetimepicker({ useCurrent: false, maxDate: $.now(), format: 'DD/MM/YYYY', locale: "pt-br" });
+        
+    </script>
+}
+

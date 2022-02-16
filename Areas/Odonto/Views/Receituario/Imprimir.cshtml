@@ -1,0 +1,27 @@
+﻿@*@model List<Odonto.Areas.Odonto.Models.Receituario.Receituario>*@
+
+@model List<Odonto.Areas.Odonto.Models.Receituario.ListReceituario>
+
+@{
+    Layout = null;
+}
+
+<style>
+    .page-break {
+        page-break-before: always !important;
+    }
+</style>
+
+<body>
+    <div class="row justify-content-center" id="imprimir">
+        @foreach (var item in Model)
+        {            
+            <div class="col-6 bg-white border" id="primeira-parte">
+                @Html.Partial("_Impressao", item.ReceituarioList)
+            </div>
+            <div class="col-6 bg-white border" id="segunda-parte">
+                @Html.Partial("_Impressao", item.ReceituarioList)
+            </div>            
+        }
+    </div>
+</body>

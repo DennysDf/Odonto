@@ -1,0 +1,109 @@
+﻿@model ICollection<Odonto.Areas.Odonto.Models.Clientes.ClientesVM>
+@{
+    ViewData["Title"] = "Listar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Page"] = "Listagem de Pacinetes";
+    ViewData["Caminho"] = "<li>Listar</li>";
+}
+
+
+
+<table class="table table-sm table-striped  table-responsive-lg bg-white table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th width="15" class="text-center">Foto</th>
+            <th>Nome</th>
+            <th>Data de Nascimento</th>
+            <th>Cidade</th>
+            <th>Endereço</th>
+            <th>Telefone</th>
+            <th width="15" class="text-center">#</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @if (item.Imagem != null)
+                {
+                    <a href="~/Upload/Clientes/@item.Imagem" width="25" height="25" alt="Alternate Text" class="ct-point image-popup-vertical-fit el-link" style="cursor:pointer" >
+                        <img  src="~/Upload/Clientes/@item.Imagem"width="25" height="25" />
+                    </a>
+                }
+                else
+                {
+                    <i class="fa fa-user fa-2x"></i>
+
+                }
+            </td>
+            <td class="text-nowrap">@item.Nome</td>
+            <td class="text-nowrap">@item.DataNascimento</td>
+            <td class="text-nowrap">@item.Cidade</td>
+            <td class="text-nowrap">@item.Endereco</td>
+            <td class="text-nowrap">@item.Telefone</td>
+            <td class="text-nowrap text-right" width="15">
+
+                <a class="mr-2 deletar" href="#" data-toggle="tooltip" data-placement="left" title="Deletar" data-id="@item.Id">
+                    <i class="fa fa-times text-danger" > </i>
+                </a>
+
+                <a class="" href="@Url.Action("Detalhes")/@item.Id?url=cliente" data-toggle="tooltip" title="Detalhes" data-placement="left" >
+                    <i class="text-dark fa fa-pencil-alt"></i>
+                </a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="modal" style="padding-top:140px" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form asp-action="DeletarPaciente" method="post">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-white"><i class="mdi mdi-alert"></i> ATENÇÃO <i class="mdi mdi-alert"></i> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="font-weight-bold font-17">Tem certeza que deseja apagar este cliente?</span>
+                    <input type="hidden" name="id" id="idCliente" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fa fa-times"></i> Cancelar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Confirmar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+@section Scripts{ 
+    <script>
+        $(".deletar").click(function () {
+            var id = $(this).data("id")
+            $("#idCliente").val(id)
+            $("#delete").modal("show")
+        })
+
+
+
+
+        $(".btn-dark").tooltip();
+
+        $(".table").DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+            }
+        }).order([1, 'asc'])
+
+
+
+    </script>
+}

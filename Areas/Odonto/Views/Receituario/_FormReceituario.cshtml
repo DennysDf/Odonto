@@ -1,0 +1,137 @@
+﻿@model Odonto.Areas.Odonto.Models.Receituario.Receituario
+@{
+    Layout = null;
+}
+<form action="#" id="form-receituario-seri">
+
+    <input type="hidden" id="index-receituario" value="-1" />
+
+    <div class="row">
+        <div class="col-sm-12">
+            <label>Princípio ativo / Medicamento:</label>
+            <input type="text" class="form-control" placeholder="Nome do medicamento..." asp-for="Medicamento" id="Medicamento" />
+            <span asp-validation-for="Medicamento"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Concentração: </label> <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Ex: 500mg"></i>
+            <input type="text" class="form-control" placeholder="Concentração..." asp-for="Concentracao" id="Concentracao" />
+            <span asp-validation-for="Concentracao"></span>
+        </div>
+
+        <div class="col-sm-8">
+            <label>Forma farmacêutica:</label>
+            <select class="form-control select2" name="Forma" id="Forma" asp-for="Forma">
+                <option value="0" selected disabled>Escolhe forma farmacêutica</option>
+                <optgroup label="Sólidas">
+                    <option value="1">Comprimidos</option>
+                    <option value="2">Cápsulas</option>
+                    <option value="3">Drágeas</option>
+                    <option value="4">Pós</option>
+                    <option value="5">Granulados</option>
+                </optgroup>
+                <optgroup label="Líquidas">
+                    <option value="6">Soluções</option>
+                    <option value="7">Gotas</option>
+                    <option value="8">Xaropes</option>
+                    <option value="9">Suspesões</option>
+                    <option value="10">Elixires</option>
+                </optgroup>
+                <optgroup label="Semi-sólidas">
+                    <option value="11">Pomadas</option>
+                    <option value="12">Cremes</option>
+                    <option value="13">Géis</option>
+                    <option value="15">Pastas</option>
+                </optgroup>
+            </select>
+            <span asp-validation-for="Forma"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-5">
+            <label>Via de administração:</label>
+            <select class="form-control select2" asp-for="AdmVia" id="AdmVia">
+                <optgroup label="Enteral">
+                    <option value="1">Oral</option>
+                    <option value="2">Sublingual</option>
+                    <option value="3">Retal</option>
+                    <option value="4">Bucal</option>
+                </optgroup>
+                <optgroup label="Parenteral">
+                    <option value="5">Intramuscular</option>
+                    <option value="6">Intravenosa</option>
+                    <option value="7">Subcutânea</option>
+                </optgroup>
+                <optgroup label="Outras">
+                    <option value="8">Respiratória</option>
+                    <option value="9">Ocular</option>
+                    <option value="10">Intranasal </option>
+                    <option value="11">Respiratória</option>
+                    <option value="12">Vaginal</option>
+                    <option value="13">Local</option>
+                </optgroup>
+            </select>
+            <span asp-validation-for="AdmVia"></span>
+        </div>
+
+        <div class="col-sm-5 ">
+            <label>Tipo de receita:</label>
+            <select class="form-control select2" asp-for="Tipo" id="Tipo">
+                <option value="1">Simples</option>
+                <option value="2">Especial</option>
+            </select>
+            <span asp-validation-for="Tipo"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <label>Dose:</label> <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Ex: Tomar 1 comp, a cada 4hr"></i>
+            <input type="text" placeholder="Doses..." class="form-control" asp-for="Dose" id="Dose" />
+            <span asp-validation-for="Dose"></span>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12 font-18">Período de tratamento</div>
+        <div class="col-sm-2 col-3">
+            <label>Duração:</label>
+            <input type="text" class="form-control duracao" id="Duracao" asp-for="Duracao" placeholder="Duração..." />
+            <span asp-validation-for="Duracao"></span>
+        </div>
+        <div class="col-sm-3 col-6 d-flex align-items-end">
+            <select class="form-control select2" asp-for="DuracaoEm" id="DuracaoEm">
+                <option value="1">Dias</option>
+                <option value="2">Semanas</option>
+                <option value="3">Meses</option>
+            </select>
+            <span asp-validation-for="DuracaoEm"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 col-4">
+            <label>Quantidade:</label>
+            <input type="text" class="form-control" placeholder="Qtde..." asp-for="Quantidade" name="Quantidade" />
+            <span asp-validation-for="Quantidade"></span>
+        </div>
+
+        <div class="col-sm-8 col-8 d-flex align-items-end">
+            <input type="text" readonly id="item" class="form-control" />
+        </div>
+    </div>
+
+    <div class="col-12 text-center mt-4" id="row-add">
+        <button type="submit" class="btn btn-success" id="form-receituario"><i class="fa fa-plus-circle"></i> Adicionar</button>
+    </div>
+
+    <div class="col-12 text-center mt-4" id="row-edit">
+        <button type="submit" class="btn btn-success" id="form-salvar"><i class="fa fa-plus-circle"></i> Salvar</button>
+
+        <button type="button" class="btn btn-danger" id="form-cancelar"><i class="fa fa-times-circle"></i> Cancelar</button>
+    </div>
+
+</form>

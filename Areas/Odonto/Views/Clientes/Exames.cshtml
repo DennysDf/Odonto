@@ -1,0 +1,53 @@
+﻿@model Odonto.Areas.Odonto.Models.Clientes.ExamesVM
+@await Html.PartialAsync("_ValidationScriptsPartial")
+@{
+    Layout = null;
+}
+<form asp-action="Exames" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ClienteId" />
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-white">Cadastrar Exame</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label asp-for="Data">Data do Exame:</label>
+                        <input type="text" asp-for="Data" class="data form-control" placeholder="Data do exame..." />
+                        <span asp-validation-for="Data"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label asp-for="Titulo">Título:</label>
+                        <input type="text" asp-for="Titulo" class="form-control" placeholder="Título..." />
+                        <span asp-validation-for="Titulo"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label asp-for="Descricao">Descrição:</label>
+                        <textarea asp-for="Descricao" class="form-control" placeholder="Descricao..." rows="4"></textarea>
+                        <span asp-validation-for="Descricao"></span>
+                    </div>
+                </div>
+                <div class="row row-foto">
+                    <div class="col-sm-12">
+                        <label asp-for="Foto">Foto:</label>
+                        <input type="file" asp-for="Foto" class="form-control" accept="image/*" />
+                        <span asp-validation-for="Foto"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fa fa-times"></i> Fechar</button>
+                <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i>  <span class="text-btn">Cadastrar</span>  </button>
+            </div>
+        </div>
+    </div>
+</form>

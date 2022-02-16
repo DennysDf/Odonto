@@ -1,0 +1,349 @@
+﻿@using Odonto.Areas.Odonto.Models.Receituario
+@model ReceituarioVM
+@{
+
+    if (Model.Id != 0)
+    {
+        ViewData["Title"] = "Editar";
+    }
+    else
+    {
+        ViewData["Title"] = "Cadastrar";
+    }
+
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+
+    if (ViewBag.Verifica)
+    {
+        ViewData["Caminho"] = "<li><a href=" + Url.Action("Listar", "Clientes") + ">Listar</a></li><li><a href=" + Url.Action("Detalhes", "Clientes", new { id = ViewBag.Cliente, url = "receituario" }) + ">Paciente</a></li> <li> <a href="+ Url.Action("Detalhes","Receituario", new { simplesId = ViewBag.SimplesId, especialId = ViewBag.EspecialId, clienteid = ViewBag.Cliente })+ ">Detalhes Receituário </a> </li> <li>Edit. Receituário</li>";
+    }
+    else if (ViewBag.Verifica2)
+    {
+        ViewData["Caminho"] = " <li><a href=" + Url.Action("Cadastrar", "Receituario") + ">Cad. Receituário</a></li>" +
+                    "<li><a href=" + Url.Action("Detalhes", "Receituario", new { simplesId = ViewBag.SimplesId, especialId = ViewBag.EspecialId, }) + ">Detalhes Receituário</a></li>" +
+                    "<li>Edit. Receituário</li>";
+    }
+    else if (ViewBag.Verifica3)
+    {
+        ViewData["Caminho"] = "<li><a href=" + Url.Action("Listar", "Clientes") + ">Listar</a></li><li><a href=" + Url.Action("Detalhes", "Clientes", new { id = ViewBag.Cliente, url = "receituario" }) + ">Paciente</a></li><li>Cad. Receituário</li>";
+    }
+    else
+    {
+        ViewData["Caminho"] = "<li>Cad. Receituário</li>";
+    }
+
+}
+
+<style>
+    .table .center {
+        vertical-align: inherit !important;
+    }
+</style>
+
+<input type="hidden" asp-for="Id" />
+
+<div class="row">
+    <div class="col-sm-5">
+        <form asp-action="Cadastrar" method="post" id="form-add-receituario">
+            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="Router" />
+            <div class="row">
+                <div class="col-sm-12">
+                    <label>Paciente:</label>
+                    <select class="form-control select2" asp-items="@Model.Pacientes" asp-for="PacienteId">
+                        <option selected disabled>Escolha o paciente.</option>
+                    </select>
+                    <span asp-validation-for="PacienteId"></span>
+                </div>
+            </div>
+
+            <div class="col-12 font-18 text-center mt-3">Lista medicamentos</div>
+            <div class="col-sm-12">
+                <table id="table-receituario" class="table table-sm mt-3 table-hover bg-white">
+                    @foreach (var item in Model.ReceituarioList)
+                    {
+                        <tr class="tr-table" data-index="@count">
+                            <td class="d-none td-medicamentos">
+                                <input hidden data-medicamento="@count" value="@item.Medicamento" />
+                                <input hidden data-concentracao="@count" value="@item.Concentracao" />
+                                <input hidden data-forma="@count" value="@item.Forma" />
+                                <input hidden data-admvia="@count" value="@item.AdmVia" />
+                                <input hidden data-tipo="@count" value="@item.Tipo" />
+                                <input hidden data-dose="@count" value="@item.Dose" />
+                                <input hidden data-quantidade="@count" value="@item.Quantidade" />
+                                <input hidden data-duracao="@count" value="@item.Duracao" />
+                                <input hidden data-duracaoem="@count" value="@item.DuracaoEm" />
+                                <input hidden data-index="@count" value="@count" />
+                            </td>
+
+                            <td>
+                                <b>@item.Medicamento - @item.Concentracao</b><br />
+                                <span class="font-12">
+                                    @item.Dose - Via @item.AdmViaS <br />
+                                    Durante @item.Duracao @item.DuracaoEmS.ToLower()
+                                </span>
+                            </td>
+                            <td class="font-12 center">@item.Quantidade @item.FormaS.ToLower() </td>
+                            <td width="15" class="font-12 center text-nowrap">
+                                <i data-index="@count" class="fa fa-times text-danger delete  mr-2" style="cursor:pointer" data-toggle="tooltip" data-placement="left" title="Apagar"></i>
+                                <i data-index="@count" class="fa fa-pencil-alt edit" style="cursor:pointer" data-toggle="tooltip" data-placement="left" title="Editar"></i>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </table>
+            </div>
+            <div class="col-sm-12 mt-3 text-center">
+                @if (Model.Id != 0)
+                {
+                    <a href="@Url.Action("Detalhes", new { id = Model.Id, clienteid = ViewBag.Cliente, router = 1 })">
+                        <button type="button" class="btn btn-sm btn-danger">Cancelar</button>
+                    </a>
+                }
+                <button type="button" id="imprimir" class="btn btn-sm btn-success">Salvar e Imprimir</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-sm-7">
+        @Html.Partial("_FormReceituario", new Receituario())
+    </div>
+
+</div>
+
+
+<div class="modal " id="alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form action="#" method="post">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-white"><i class="mdi mdi-alert"></i> ATENÇÃO <i class="mdi mdi-alert"></i> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="font-weight-bold font-17" id="texto"></span>
+                    <input type="hidden" name="clienteId" id="medicamento-form" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fa fa-times"></i> Cancelar</button>
+                    <button type="button" class="btn btn-success submit-form" id="delete-receituario" data-dismiss="modal"><i class="fa fa-check"></i> Confirmar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        $("#form-receituario-seri").submit(function (e) {
+            e.preventDefault()
+            setTimeout(function () {
+                var erros = $("body").find(".field-validation-error");
+                if (erros.length == 0) {
+                    submitForm()
+                }
+            }, 100)
+            return false;
+        });
+
+        $("#imprimir").click(function () {
+
+            var indexs = [];
+            var count = 0;
+            var trs = $(".tr-table")
+
+            $.each(trs, function (elemet, index) {
+                indexs[count] = $(this).data("index")
+                count++;
+            })
+            count = 0;
+            var tds = $(".td-medicamentos")
+
+            $.each(tds, function (elemet, index) {
+                $(this).find("input[data-medicamento=" + indexs[count] + "]").attr("name", "ReceituarioList[" + count + "].Medicamento")
+                $(this).find("input[data-concentracao=" + indexs[count] + "]").attr("name", "ReceituarioList[" + count + "].Concentracao")
+                $(this).find("input[data-forma=" + indexs[count] + "]").attr("name", "ReceituarioList[" + count + "].Forma")
+                $(this).find("input[data-admvia=" + indexs[count] + "]").attr("name", "ReceituarioList[" + count + "].AdmVia")
+                $(this).find("input[data-tipo=" + indexs[count] + "]").attr("name", "ReceituarioList[" + count + "].Tipo")
+                $(this).find("input[data-dose=" + indexs[count] + "]").attr("name", "ReceituarioList[" + count + "].Dose")
+                $(this).find("input[data-quantidade=" + indexs[count] + "]").attr("name", "ReceituarioList[" + count + "].Quantidade")
+                $(this).find("input[data-duracao=" + indexs[count] + "]").attr("name", "ReceituarioList[" + count + "].Duracao")
+                $(this).find("input[data-duracaoem=" + indexs[count] + "]").attr("name", "ReceituarioList[" + count + "].DuracaoEm")
+                $(this).find("input[data-index=" + indexs[count] + "]").attr("name", "ReceituarioList[" + count + "].Index")
+                count++
+            })
+
+            var tr = $("#table-receituario").find("tr")
+            if (tr.length == 0) {
+                $("#texto").text("Adicione pelo menos um medicamento para continuar.");
+                $("#delete-receituario").addClass("d-none")
+                $("#alert").modal("show")
+                return false;
+            }
+
+
+            $("#form-add-receituario").submit()
+
+        });
+
+        $("#delete-receituario").click(function () {
+            var medicamento = $("#medicamento-form").val()
+            $("tr[data-index='" + medicamento + "']").remove();
+        });
+
+        function deletar() {
+            $(".delete").click(function () {
+                var index = $(this).data("index")
+                $("#texto").text("Tem certeza que deseja apagar este medicamento?");
+                $("#delete-receituario").removeClass("d-none")
+                $("#medicamento-form").val(index)
+                $("#alert").modal("show")
+            });
+        }
+
+        function someBotoes() {
+            $("#row-edit").hide()
+            $("#row-add").show()
+        }
+
+        $("#form-cancelar").click(function () {
+            resetForm();
+            someBotoes()
+        });
+
+        edit();
+
+        function edit() {
+            $(".edit").click(function () {
+                var index = $(this).data("index")
+                var medicamento = $("input[data-medicamento=" + index + "]").val();
+                var concentracao = $("input[data-concentracao=" + index + "]").val();
+                var forma = $("input[data-forma=" + index + "]").val();
+                var admvia = $("input[data-admvia=" + index + "]").val();
+                var tipo = $("input[data-tipo=" + index + "]").val();
+                var dose = $("input[data-dose=" + index + "]").val();
+                var quantidade = $("input[data-quantidade=" + index + "]").val();
+                var duracao = $("input[data-duracao=" + index + "]").val();
+                var duracaoem = $("input[data-duracaoem=" + index + "]").val();
+                var index = $("input[data-index=" + index + "]").val();
+                $("select.select2").select2('destroy')
+                $("#Medicamento").val(medicamento)
+                $("#Concentracao").val(concentracao)
+                $("#Forma").val(forma)
+                $("#AdmVia").val(admvia)
+                $("#Tipo").val(tipo)
+                $("#Dose").val(dose)
+                $("#Quantidade").val(quantidade)
+                $("#Duracao").val(duracao)
+                $("#DuracaoEm").val(duracaoem)
+                $("#index-receituario").val(index)
+                $(".select2").select2();
+                var forma = $("#Forma option:checked").text()
+                $("#item").val(forma)
+                $("#row-add").hide();
+                $("#row-edit").show()
+
+            })
+        }
+
+        $("#row-edit").hide()
+
+        function resetForm() {
+            $("select.select2").select2('destroy')
+            $("#form-receituario-seri").trigger("reset")
+            $(".select2").select2();
+            $('[data-toggle="tooltip"]').tooltip()
+        }
+
+        function submitForm() {
+             var indexvalor = $("#index-receituario").val().toString()
+
+            var model = {
+                Medicamento: $("#Medicamento").val(),
+                Concentracao: $("#Concentracao").val(),
+                Forma: $("#Forma").val(),
+                AdmVia: $("#AdmVia").val(),
+                Tipo: $("#Tipo").val(),
+                Dose: $("#Dose").val(),
+                Quantidade: $("#Quantidade").val(),
+                Duracao: $("#Duracao").val(),
+                DuracaoEm: $("#DuracaoEm").val()
+            }
+
+            var exist = indexvalor != "-1" ? true : false ;
+
+            var qtd = exist ? indexvalor : getIndexTable();
+
+            $.post('@Url.Action("TrReceituario")', { model, qtd, isExist: exist  }, function (response) {
+                if (exist) {
+                    $(response).insertAfter("tr[data-index='" + indexvalor + "']")
+                    $("tr[data-index='" + indexvalor + "']").first().remove();
+                    someBotoes();
+                } else {
+                    $("#table-receituario").append(response)
+                }
+                $("#index-receituario").val(-1)
+                resetForm()
+                edit();
+                deletar()
+                $("#Medicamento").focus();
+            })
+        }
+        deletar();
+
+        function getIndexTable() {
+            var index = $(".tr-table").last().data("index")
+            if (typeof index === "undefined") {
+                return -1
+            } else {
+                return index;
+            }
+        }
+
+        function getTextForma() {
+            $("#Forma").change(function () {
+                var forma = $("#Forma option:checked").text()
+                $("#item").val(forma)
+            })
+        }
+
+        getTextForma()
+
+        $("#Medicamento").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("JsonRemedios")',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        "termo": request.term
+                    }
+                }).done(function (data) {
+                    if (data.length > 0 ) {
+                            response($.each(data, function (key, item) {
+                            return ({ label : item })
+                            }))
+                    }
+                })
+            },
+            minLength: 3
+        });
+
+        $(".select2").select2();
+
+        $(".data").datetimepicker({ useCurrent: false, maxDate: $.now(), format: 'DD/MM/YYYY', locale: "pt-br" });
+
+        $(".data").mask("00/00/0000")
+
+        $(".duracao, #Quantidade").mask("000")
+
+    </script>
+}

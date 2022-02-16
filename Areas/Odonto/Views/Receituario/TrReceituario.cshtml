@@ -1,0 +1,33 @@
+﻿@model Odonto.Areas.Odonto.Models.Receituario.Receituario
+@{
+    Layout = null;
+}
+
+
+<tr class="tr-table" data-index="@Model.Index">
+    <td  class="d-none td-medicamentos">
+        <input hidden data-medicamento="@Model.Index"  value="@Model.Medicamento" />
+        <input hidden data-concentracao="@Model.Index" value="@Model.Concentracao" />
+        <input hidden data-forma="@Model.Index"  value="@Model.Forma" />
+        <input hidden data-admvia="@Model.Index"  value="@Model.AdmVia" />
+        <input hidden data-tipo="@Model.Index"  value="@Model.Tipo" />
+        <input hidden data-dose="@Model.Index"  value="@Model.Dose" />
+        <input hidden data-quantidade="@Model.Index" value="@Model.Quantidade" />
+        <input hidden data-duracao="@Model.Index" value="@Model.Duracao" />
+        <input hidden data-duracaoem="@Model.Index" value="@Model.DuracaoEm" />
+        <input hidden data-index="@Model.Index" value="@Model.Index" />
+    </td>
+
+    <td>
+        <b>@Model.Medicamento - @Model.Concentracao</b><br />
+        <span class="font-12">
+            @Model.Dose - Via @Model.AdmViaS <br />
+            Durante @Model.Duracao @Model.DuracaoEmS.ToLower()
+        </span>
+    </td>
+    <td class="font-12 center">@Model.Quantidade @Model.FormaS.ToLower() </td>
+    <td width="15" class="font-12 center text-nowrap">
+        <i data-index="@Model.Index" class="fa fa-times text-danger delete  mr-2" style="cursor:pointer" data-toggle="tooltip" data-placement="left" title="Apagar"></i>
+        <i data-index="@Model.Index" class="fa fa-pencil-alt edit" style="cursor:pointer" data-toggle="tooltip" data-placement="left" title="Editar"></i>
+    </td>
+</tr>

@@ -1,0 +1,49 @@
+﻿@model List<Odonto.Areas.Odonto.Models.Clientes.ExamesVM>
+@{
+    Layout = null;
+}
+<div class="row justify-content-center">
+    <div class="col-sm-3 text-center my-2">
+        <button data-id="0" id="add-exames" class="btn btn-dark w-100 edit-cliente"><i class="fa fa-plus text-white"></i> Cadastrar</button>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row el-element-overlay">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="el-card-item">
+                        <div class="el-card-avatar el-overlay-1">
+                            <img src="~/Upload/Exames/@item.Imagem" alt="Exame"  />
+                            <div class="el-overlay">
+                                <ul class="list-style-none el-info">
+                                    <li class="el-item">
+                                        <span class="btn default btn-outline open-zoom el-link" href="/Upload/Exames/@item.Imagem" alt="Exame"><i class="mdi mdi-magnify-plus"></i></span>
+                                    </li>
+                                    <li class="el-item edit-exame" data-id="@item.Id">
+                                        <a class="btn default btn-outline  el-link" href="#"><i class="fa fa-pencil-alt"></i></a>
+                                    </li>
+                                    <li class="el-item del-exame" data-id="@item.Id">
+                                        <a class="btn default btn-outline  el-link" href="#"><i class="fa fa-times"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="el-card-content">
+                            <h5 class="m-b-0">
+                                @item.Data.ToDateMin()
+                                <br />
+
+
+                                @item.Titulo
+                            </h5>
+                            <span class="text-muted">@item.Descricao</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

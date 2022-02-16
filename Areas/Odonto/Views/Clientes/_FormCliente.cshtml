@@ -1,0 +1,100 @@
+﻿@model Odonto.Areas.Odonto.Models.Clientes.ClientesVM
+@{
+    Layout = null;
+    var readonl = Model.Nome != null ? "readonly" : "";
+
+}
+
+
+    <div class="container-fluid">
+        <input type="hidden" asp-for="Id" />
+        <div class="row">
+            <div class="col-sm-6 col-12">
+                <label asp-for="Nome">Nome:</label>
+                <input asp-for="Nome" type="text" class="form-control form-cliente" placeholder="Nome completo...." />
+                <span asp-validation-for="Nome"></span>
+            </div>
+            <div class="col-sm-4 col-8">
+                <label asp-for="DataNasc">Data de Nascimento:</label>
+                <input asp-for="DataNasc" type="text" class="form-control data form-cliente" placeholder="Data de Nascimento..." />
+                <span asp-validation-for="DataNasc"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-12">
+                <label asp-for="Cidade">Cidade:</label>
+                <input asp-for="Cidade" type="text" class="form-control form-cliente" placeholder="Cidade..." />
+                <span asp-validation-for="Cidade"></span>
+            </div>
+            <div class="col-sm-6 col-12">
+                <label asp-for="Endereco">Endereço:</label>
+                <input asp-for="Endereco" type="text" class="form-control form-cliente" placeholder="Endereço..." />
+                <span asp-validation-for="Endereco"></span>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-6 col-12">
+                <label asp-for="Telefone">Telefone <small>(xx) 9 xxxx-xxxx</small> :</label>
+                <input asp-for="Telefone" type="text" class="form-control form-cliente telefone-celular" placeholder="Telefone..." />
+                <span asp-validation-for="Telefone"></span>
+            </div>
+            <div class="col-sm-6 col-12">
+                <label asp-for="Telefone2">Telefone <small>(xx) 9 xxxx-xxxx, segundário </small> :</label>
+                <input asp-for="Telefone2" type="text" class="form-control form-cliente telefone-celular" placeholder="Telefone... (opcional)" />
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-6 col-12">
+                <label asp-for="Email">E-mail:</label>
+                <input asp-for="Email" type="text" class="form-control form-cliente" placeholder="E-mail..." />
+            </div>
+            <div class="col-sm-6">
+                <label asp-for="EstadoCivil">Estado Civil:</label>
+                <input type="text" asp-for="EstadoCivil" class="form-control form-cliente" placeholder="Estado Civil..." />
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-12">
+                <label asp-for="Convenio">Convênio:</label>
+                <input asp-for="Convenio" type="text" class="form-control form-cliente" placeholder="Convênio..." />
+            </div>
+            <div class="col-sm-6 col-12">
+                <label asp-for="NumConvenio">Nº Convênio:</label>
+                <input asp-for="NumConvenio" type="text" class="form-control form-control form-cliente" placeholder="Número do convênio..." />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-12">
+                <label asp-for="Profissao">Profissão:</label>
+                <input asp-for="Profissao" type="text" class="form-control form-cliente" placeholder="Profissão..." />
+            </div>
+            <div class="col-sm-6 col-12">
+                <label asp-for="DentistaOrigem">Dentista Origem:</label>
+                <input asp-for="DentistaOrigem" type="text" class="form-control mask form-cliente" placeholder="Dentista origem..." />
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-6 col-12">
+                <label asp-for="Foto">Foto:</label>
+                    <input asp-for="Foto" type="file" class="form-control form-cliente" accept="image/*" />                
+            </div>
+
+            <div class="col-sm-4 col-12">
+                <label asp-for="InicioTrate">Início do tratamento:</label>
+                <input asp-for="InicioTrate" type="text" class="form-control data form-cliente" placeholder="Início do tratamento..." />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <label asp-for="Obs">Observação:</label>
+                <textarea asp-for="Obs" class="form-control form-cliente" placeholder="Observação..."></textarea>
+            </div>
+        </div>
+    </div>
+
+
+
