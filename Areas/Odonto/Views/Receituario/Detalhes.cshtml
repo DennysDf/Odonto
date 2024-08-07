@@ -15,7 +15,7 @@
     }
 }
 
-<style type="text/css" > 
+<style> 
 
     @@media print {
         #teste{
@@ -63,7 +63,7 @@
         flex: 1 0 auto;
     }
 </style>
-<style type="text/css">
+<style>
 
     table td {
         font-size: 9pt !important;
@@ -124,7 +124,7 @@
     @foreach (var item in Model)
     {   
 
-    <div class="col-sm-7 col-12 bg-white border" id="primeira-parte">
+    <div class="col-sm-5 col-12 bg-white border" id="primeira-parte">
         <div class="row text-center row-button" style="background-color:#EEEEEE">
             <div class="col-12 pb-3">
                 <a href="@Url.Action("Cadastrar", new { simplesId =  item.SimplesId, especialId = item.EspecialId,  pacienteId = ViewBag.Cliente })">
@@ -135,20 +135,9 @@
                 </button>
             </div>          
         </div>    
-           <div class="row justify-content-center" id="imprimir">
-        
-        
-            <div class="col-6 bg-white border" id="primeira-parte">
-                @Html.Partial("_Impressao", item.ReceituarioList)
-            </div>
-            <div class="col-6 bg-white border" id="segunda-parte">
-                @Html.Partial("_Impressao", item.ReceituarioList)
-            </div>            
-        
-    </div>
-    </div>
- 
 
+        @Html.Partial("_Impressao", item.ReceituarioList)
+    </div>
     }
 
 
@@ -169,60 +158,21 @@
             Imprimir( @ViewBag.simplesId, @ViewBag.especialId )
         </text>
         }
-        
-        $(".imprimir").on("click", function() {
-            var printContents = $("#imprimir").html();
-            var originalContents = $("body").html();
 
-            var printWindow = window.open('', '', 'height=600,width=800');
-            printWindow.document.write('<html><head><title>Print</title>');
-
-            // Copia os estilos
-            $('link[rel="stylesheet"]').each(function() {
-                printWindow.document.write('<link rel="stylesheet" href="' + $(this).attr('href') + '" type="text/css" />');
-            });
-
-            printWindow.document.write('</head><body>');
-            printWindow.document.write(printContents);
-            printWindow.document.write('</body></html>');
-
-            printWindow.document.close();
-            printWindow.print();
-        });
-
-        
-   
-
-
-
-        // $(".imprimir").click(function () {            
-        //     var divToPrint = $('#imprimir').clone();
-        //     var newWindow = window.open('', '_blank', 'height=600,width=800');
-
-        //     newWindow.document.write('<html><head><title>Impressão</title>');
-
-        //     // Copiar todos os links de estilos da página original para a nova janela
-        //     $('link[rel="stylesheet"]').each(function() {
-        //         newWindow.document.write('<link href="' + $(this).attr('href') + '" rel="stylesheet" type="text/css" />');
-        //     });
-
-        //     newWindow.document.write('<style>body{ font-family: Arial, sans-serif; } .page-break{ page-break-before: always; } </style>');
-        //     newWindow.document.write('</head><body>');
-        //     newWindow.document.write(divToPrint.html());
-        //     newWindow.document.write('</body></html>');
-        //     newWindow.document.close();
-
-        //     // Adiciona um evento listener para fechar a janela caso a impressão seja cancelada
-        //     newWindow.onafterprint = function() {
-        //        // newWindow.close();
-        //     };
-
-        //     newWindow.print();
-        // })
+        $(".imprimir").click(function () {
+            var simples = $(this).data("simples")
+            var especial = $(this).data("especial")
+            Imprimir(simples, especial);
+        })
 
         function Imprimir(simples, especial) {
-
-        
+            $.post('@Url.Action("Imprimir")', { simplesId: simples, especialId: especial }, function (response) {
+                $(response).printThis({
+                    copyTagClasses: true,
+                    importStyle: true,
+                    printDelay: 600
+                });
+            })
         }
 
 </script>
